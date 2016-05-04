@@ -1,0 +1,12 @@
+Source: ros-kinetic-capabilities
+Section: misc
+Priority: extra
+Maintainer: William Woodall <william@osrfoundation.org>
+Build-Depends: debhelper (>= 9.0.0), pep8, python-coverage, python-mock, ros-kinetic-catkin, ros-kinetic-geometry-msgs, ros-kinetic-message-generation, ros-kinetic-roslaunch, ros-kinetic-rospy, ros-kinetic-rosservice, ros-kinetic-rostest, ros-kinetic-std-msgs, ros-kinetic-std-srvs
+Homepage: http://wiki.ros.org/capabilities
+Standards-Version: 3.9.2
+
+Package: ros-kinetic-capabilities
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-yaml, ros-kinetic-bondpy, ros-kinetic-message-runtime, ros-kinetic-nodelet, ros-kinetic-roslaunch, ros-kinetic-rospy, ros-kinetic-std-msgs, ros-kinetic-std-srvs
+Description: Package which implements capabilities, including code to parse capability interface specs, to parse capability provider specs, and implement the capability server.
