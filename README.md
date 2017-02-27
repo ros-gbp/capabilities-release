@@ -1,3 +1,26 @@
+## capabilities (lunar) - 0.2.0-0
+
+The packages in the `capabilities` repository were released into the `lunar` distro by running `/usr/local/bin/bloom-release -r lunar -t lunar capabilities` on `Mon, 27 Feb 2017 23:48:15 -0000`
+
+The `capabilities` package was released.
+
+Version of package(s) in repository `capabilities`:
+
+- upstream repository: https://github.com/osrf/capabilities.git
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `null`
+- new version: `0.2.0-0`
+
+Versions of tools used:
+
+- bloom version: `0.5.24`
+- catkin_pkg version: `0.3.1`
+- rosdep version: `0.11.5`
+- rosdistro version: `0.6.1`
+- vcstools version: `0.1.39`
+
+
 ## capabilities (kinetic) - 0.2.0-0
 
 The packages in the `capabilities` repository were released into the `kinetic` distro by running `/usr/bin/bloom-release -t kinetic -r kinetic --new-track capabilities` on `Wed, 04 May 2016 21:38:05 -0000`
