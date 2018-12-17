@@ -1,3 +1,26 @@
+## capabilities (melodic) - 0.2.0-0
+
+The packages in the `capabilities` repository were released into the `melodic` distro by running `/Users/william/.pyenv/versions/2.7.15/bin/bloom-release -r melodic -t melodic capabilities` on `Mon, 17 Dec 2018 21:39:58 -0000`
+
+The `capabilities` package was released.
+
+Version of package(s) in repository `capabilities`:
+
+- upstream repository: https://github.com/osrf/capabilities.git
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `null`
+- new version: `0.2.0-0`
+
+Versions of tools used:
+
+- bloom version: `0.6.9`
+- catkin_pkg version: `0.4.9`
+- rosdep version: `0.13.0`
+- rosdistro version: `0.7.0`
+- vcstools version: `0.1.40`
+
+
 ## capabilities (lunar) - 0.2.0-0
 
 The packages in the `capabilities` repository were released into the `lunar` distro by running `/usr/local/bin/bloom-release -r lunar -t lunar capabilities` on `Mon, 27 Feb 2017 23:48:15 -0000`
