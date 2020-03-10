@@ -1,0 +1,12 @@
+Source: ros-noetic-capabilities
+Section: misc
+Priority: optional
+Maintainer: William Woodall <william@osrfoundation.org>
+Build-Depends: debhelper (>= 9.0.0), python3-coverage, python3-mock, python3-pep8, ros-noetic-catkin, ros-noetic-geometry-msgs, ros-noetic-message-generation, ros-noetic-roslaunch, ros-noetic-rospy, ros-noetic-rosservice, ros-noetic-rostest, ros-noetic-std-msgs, ros-noetic-std-srvs
+Homepage: http://wiki.ros.org/capabilities
+Standards-Version: 3.9.2
+
+Package: ros-noetic-capabilities
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python3-yaml, ros-noetic-bondpy, ros-noetic-message-runtime, ros-noetic-nodelet, ros-noetic-roslaunch, ros-noetic-rospy, ros-noetic-std-msgs, ros-noetic-std-srvs
+Description: Package which implements capabilities, including code to parse capability interface specs, to parse capability provider specs, and implement the capability server.
