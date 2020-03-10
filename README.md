@@ -1,3 +1,26 @@
+## capabilities (melodic) - 0.3.1-1
+
+The packages in the `capabilities` repository were released into the `melodic` distro by running `/usr/local/bin/bloom-release -r melodic -t melodic capabilities` on `Tue, 10 Mar 2020 23:39:11 -0000`
+
+The `capabilities` package was released.
+
+Version of package(s) in repository `capabilities`:
+
+- upstream repository: https://github.com/osrf/capabilities.git
+- release repository: https://github.com/ros-gbp/capabilities-release.git
+- rosdistro version: `0.2.0-0`
+- old version: `0.2.0-0`
+- new version: `0.3.1-1`
+
+Versions of tools used:
+
+- bloom version: `0.9.3`
+- catkin_pkg version: `0.4.16`
+- rosdep version: `0.18.0`
+- rosdistro version: `0.8.0`
+- vcstools version: `0.1.42`
+
+
 ## capabilities (noetic) - 0.3.1-1
 
 The packages in the `capabilities` repository were released into the `noetic` distro by running `/usr/local/bin/bloom-release -r noetic -t noetic capabilities` on `Tue, 10 Mar 2020 23:24:58 -0000`
