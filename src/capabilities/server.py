@@ -327,6 +327,9 @@ class CapabilityServer(object):
         # Collect default arguments
         self.__populate_default_providers()
 
+        rospy.Subscriber(
+            '~events', CapabilityEvent, self.handle_capability_events)
+
         self.__start_capability_service = rospy.Service(
             '~start_capability', StartCapability, self.handle_start_capability)
 
@@ -375,9 +378,6 @@ class CapabilityServer(object):
             '~get_remappings', GetRemappings,
             self.handle_get_remappings)
 
-        rospy.Subscriber(
-            '~events', CapabilityEvent, self.handle_capability_events)
-
         rospy.loginfo("Capability Server Ready")
         rospy.Publisher("~events", CapabilityEvent, queue_size=1000).publish(
             CapabilityEvent(type=CapabilityEvent.SERVER_READY))
@@ -401,7 +401,7 @@ class CapabilityServer(object):
             if self.__package_whitelist and package not in self.__package_whitelist:
                 rospy.loginfo("Package '{0}' not in whitelist, skipping.".format(package))
                 del self.spec_file_index[package]
-            if self.__package_blacklist and package in self.__package_blacklist:
+            elif self.__package_blacklist and package in self.__package_blacklist:
                 rospy.loginfo("Package '{0}' in blacklist, skipping.".format(package))
                 del self.spec_file_index[package]
         # Generate spec_index from spec file index
@@ -422,7 +422,7 @@ class CapabilityServer(object):
                     removed_interfaces.append(spec)
                     remove_func(spec)
                     rospy.loginfo("Spec '{0}' is not in the whitelist, skipping.".format(spec))
-                if self.__blacklist and spec in self.__blacklist:
+                elif self.__blacklist and spec in self.__blacklist:
                     removed_interfaces.append(spec)
                     remove_func(spec)
                     rospy.loginfo("Spec '{0}' is in the blacklist, skipping.".format(spec))
@@ -432,6 +432,13 @@ class CapabilityServer(object):
                 if provider.implements == interface:
                     spec_index.remove_provider(provider.name)
         self.__spec_index = spec_index
+        # Prune spec_file_index
+        spec_paths = spec_index.interface_paths.values() + \
+            spec_index.semantic_interface_paths.values() + \
+            spec_index.provider_paths.values()
+        for package_name, package_dict in self.spec_file_index.items():
+            for spec_type in ['capability_interface', 'semantic_capability_interface', 'capability_provider']:
+                package_dict[spec_type][:] = [path for path in package_dict[spec_type] if path in spec_paths]
 
     def __populate_default_providers(self):
         # Collect available interfaces
@@ -689,11 +696,30 @@ class CapabilityServer(object):
         provider = providers[preferred_provider]
         instances = self.__get_capability_instances_from_provider(provider)
         with self.__graph_lock:
+            # If the requested capability has an existing instance, we don't start it
+            # again. Return a result that lets the callee know this happened.
+            requested_instance = instances[0]
+            if requested_instance.interface in self.__capability_instances:
+                requested_instance_state = self.__capability_instances[
+                    requested_instance.interface].state
+                if requested_instance_state in ['running']:
+                    # Current instance is running (or will be soon)
+                    return StartCapabilityResponse.RESULT_CURRENTLY_RUNNING
+                elif requested_instance_state in ['waiting', 'launching']:
+                    return StartCapabilityResponse.RESULT_CURRENTLY_STARTING
+                elif requested_instance_state in ['stopping', 'terminated']:
+                    # Current instance is in the process of stopping
+                    return StartCapabilityResponse.RESULT_CURRENTLY_STOPPING
+                else:
+                    raise RuntimeError(
+                        "Instance for capability '{0}' has improper state '{1}'"
+                        .format(capability, requested_instance_state))
+
             for x in instances:
                 if x.interface not in self.__capability_instances:
                     self.__capability_instances[x.interface] = x
             self.__update_graph()
-        return True
+        return StartCapabilityResponse.RESULT_SUCCESS
 
     def handle_get_capability_specs(self, req):
         return self.__catch_and_log(self._handle_get_capability_specs, req)
@@ -761,7 +787,7 @@ class CapabilityServer(object):
             msg += " with provider '{0}'".format(req.preferred_provider)
         rospy.loginfo(msg)
         ret = self.__start_capability(req.capability, req.preferred_provider)
-        return StartCapabilityResponse(ret or False)
+        return StartCapabilityResponse(ret)
 
     def handle_stop_capability(self, req):
         return self.__catch_and_log(self._handle_stop_capability, req)
