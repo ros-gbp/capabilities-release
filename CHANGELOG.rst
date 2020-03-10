@@ -2,6 +2,26 @@
 Changelog for package capabilities
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.1 (2020-03-10)
+------------------
+* Updated ``package.xml`` to format 3 and and used condition dependencies to support Python3 (`#91 <https://github.com/osrf/capabilities/issues/91>`_)
+* Contributors: William Woodall
+
+0.3.0 (2020-03-09)
+------------------
+* Bump CMake version to avoid CMP0048 warning (`#89 <https://github.com/osrf/capabilities/issues/89>`_)
+* Fixed bug by pruning spec files by black/white lists `#84 <https://github.com/osrf/capabilities/issues/84>`_ from commaster90/fix-1
+  This ensures ``GetCapabilitySpecs`` service returns the filtered specs.
+* Removed a faulty ``start_capability`` test.
+  Can't rely on timing of calling ``stop_capability`` and then ``start_capability`` in quick succession, so this test can't be made to work reliably.
+* Updated discovery unit test.
+* Fixed typos in ``start_capabilities`` server.
+* Added test for restarting capabilities.
+* Export architecture_independent flag in package.xml
+* Changed to return an error if requested capability is already running.
+  The ``start_capability`` service now returns an error code if it cannot start a capability because it is already running.
+* Contributors: Jon Binney, Patrick Chin, Scott K Logan, Shane Loretz, William Woodall
+
 0.2.0 (2014-06-27)
 ------------------
 * downgrade one of the exceptions to a warning
